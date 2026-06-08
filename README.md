@@ -1,14 +1,20 @@
 # hellovass-figma-mcp
 
-Public distribution repo for `hellovass-figma-mcp`, a self-hosted Figma MCP server that turns Figma nodes into framework-agnostic ViewTree IR for Android / iOS / React Native / Flutter code generation.
+`hellovass-figma-mcp` 是一个自托管 Figma MCP Server，用于把 Figma 节点转换成 framework-agnostic ViewTree IR，供 AI agent 生成 Android / iOS / React Native / Flutter UI 代码。
 
-This repository contains usage documentation and release artifacts only. The implementation source is maintained separately.
+`hellovass-figma-mcp` is a self-hosted Figma MCP server that turns Figma nodes into framework-agnostic ViewTree IR for Android / iOS / React Native / Flutter UI code generation.
 
-## Requirements
+本仓库是公开分发仓库，只包含使用文档和 release 产物。核心实现源码维护在私有仓库中。
+
+This is the public distribution repository. It contains usage documentation and release artifacts only. The implementation source is maintained separately.
+
+## 环境要求 / Requirements
 
 - Java 17+
-- A Figma personal access token
-- Optional: [JBang](https://www.jbang.dev/) for simpler MCP client configuration
+- Figma personal access token
+- 可选 / Optional: [JBang](https://www.jbang.dev/)，用于更自然地配置 MCP 客户端
+
+在 Figma 设置页创建 token:
 
 Create a Figma token from:
 
@@ -16,27 +22,35 @@ Create a Figma token from:
 https://www.figma.com/settings
 ```
 
-Required scopes:
+需要的权限 / Required scopes:
 
 - `File content (read)`
 - `File images (read)`
 
-## Install With JBang
+## 使用 JBang 安装 / Install With JBang
 
-Trust this release URL once. Do this manually in a terminal before adding the MCP server to your client, because MCP stdio cannot handle JBang's first-run trust prompt.
+推荐先在终端手动 trust release URL。MCP stdio 不能处理 JBang 第一次启动时的 trust 弹窗，所以不要让 MCP 客户端直接触发第一次 trust。
+
+Trust this release URL manually before adding the server to your MCP client. MCP stdio cannot handle JBang's first-run trust prompt.
 
 ```bash
 jbang trust add https://github.com/HelloVass/hellovass-figma-mcp/releases/download/
 ```
 
-Install the app once:
+安装为本地命令:
+
+Install it as a local command:
 
 ```bash
 jbang app install --name hellovass-figma-mcp \
   https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.0/hellovass-figma-mcp-0.1.0-all.jar
 ```
 
+如果当前 shell 安装后还找不到 `hellovass-figma-mcp`，重启 shell，或者使用完整路径 `~/.jbang/bin/hellovass-figma-mcp`。
+
 If your current shell cannot find `hellovass-figma-mcp` immediately after installation, restart the shell or use the full path `~/.jbang/bin/hellovass-figma-mcp`.
+
+然后配置 MCP 客户端:
 
 Then configure your MCP client:
 
@@ -54,7 +68,9 @@ Then configure your MCP client:
 }
 ```
 
-Alternatively, after the URL is trusted, you can run the release jar directly:
+已 trust URL 后，也可以让 MCP 客户端直接通过 JBang 运行 release jar:
+
+After the URL is trusted, you can also run the release jar directly through JBang:
 
 ```json
 {
@@ -72,9 +88,11 @@ Alternatively, after the URL is trusted, you can run the release jar directly:
 }
 ```
 
-## Install With Java
+## 使用 Java 安装 / Install With Java
 
-Download the jar from the latest GitHub Release, then configure:
+从 GitHub Release 下载 jar 后配置 MCP 客户端:
+
+Download the jar from GitHub Releases, then configure your MCP client:
 
 ```json
 {
@@ -93,15 +111,15 @@ Download the jar from the latest GitHub Release, then configure:
 }
 ```
 
-## Tools
+## 工具 / Tools
 
-| Tool | Description |
-|------|-------------|
-| `figma_get_view_tree(figmaUrl)` | Return ViewTree IR JSON for a Figma node |
-| `figma_get_screenshot(figmaUrl, scale?)` | Return a PNG preview as MCP image content |
-| `figma_download_assets(fileUrl, assets[], outputDir)` | Download image/vector assets to a local directory |
-| `figma_list_frames(fileUrl)` | List pages and top-level frames/components |
-| `figma_get_node_raw(figmaUrl)` | Return raw Figma REST node JSON for debugging |
+| Tool | 中文说明 | English Description |
+|------|----------|---------------------|
+| `figma_get_view_tree(figmaUrl)` | 返回指定 Figma 节点的 ViewTree IR JSON | Return ViewTree IR JSON for a Figma node |
+| `figma_get_screenshot(figmaUrl, scale?)` | 返回节点 PNG 预览图 | Return a PNG preview as MCP image content |
+| `figma_download_assets(fileUrl, assets[], outputDir)` | 下载图片或矢量资源到本地目录 | Download image/vector assets to a local directory |
+| `figma_list_frames(fileUrl)` | 列出页面和顶层 frame/component | List pages and top-level frames/components |
+| `figma_get_node_raw(figmaUrl)` | 返回原始 Figma REST node JSON，用于调试 | Return raw Figma REST node JSON for debugging |
 
 ## Smoke Test
 
@@ -109,6 +127,8 @@ Download the jar from the latest GitHub Release, then configure:
 { printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"smoke","version":"0.0"}}}'; sleep 2; } \
   | FIGMA_TOKEN=dummy java -jar hellovass-figma-mcp-0.1.0-all.jar
 ```
+
+预期返回 JSON-RPC initialize response，包含:
 
 Expected: a JSON-RPC initialize response containing:
 
@@ -121,7 +141,7 @@ Expected: a JSON-RPC initialize response containing:
 }
 ```
 
-## Artifact
+## 产物 / Artifact
 
 Release: `v0.1.0`
 
