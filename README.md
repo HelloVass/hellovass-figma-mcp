@@ -36,6 +36,8 @@ jbang app install --name hellovass-figma-mcp \
   https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.0/hellovass-figma-mcp-0.1.0-all.jar
 ```
 
+If your current shell cannot find `hellovass-figma-mcp` immediately after installation, restart the shell or use the full path `~/.jbang/bin/hellovass-figma-mcp`.
+
 Then configure your MCP client:
 
 ```json
