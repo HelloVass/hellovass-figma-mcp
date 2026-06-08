@@ -23,25 +23,13 @@ Required scopes:
 
 ## Install With JBang
 
-Use the release jar directly:
+Trust this release URL once. Do this manually in a terminal before adding the MCP server to your client, because MCP stdio cannot handle JBang's first-run trust prompt.
 
-```json
-{
-  "mcpServers": {
-    "hellovass-figma": {
-      "command": "jbang",
-      "args": [
-        "https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.0/hellovass-figma-mcp-0.1.0-all.jar"
-      ],
-      "env": {
-        "FIGMA_TOKEN": "figd_xxx"
-      }
-    }
-  }
-}
+```bash
+jbang trust add https://github.com/HelloVass/hellovass-figma-mcp/releases/download/
 ```
 
-For long-term local use, install the app once:
+Install the app once:
 
 ```bash
 jbang app install --name hellovass-figma-mcp \
@@ -56,6 +44,24 @@ Then configure your MCP client:
     "hellovass-figma": {
       "command": "hellovass-figma-mcp",
       "args": [],
+      "env": {
+        "FIGMA_TOKEN": "figd_xxx"
+      }
+    }
+  }
+}
+```
+
+Alternatively, after the URL is trusted, you can run the release jar directly:
+
+```json
+{
+  "mcpServers": {
+    "hellovass-figma": {
+      "command": "jbang",
+      "args": [
+        "https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.0/hellovass-figma-mcp-0.1.0-all.jar"
+      ],
       "env": {
         "FIGMA_TOKEN": "figd_xxx"
       }
