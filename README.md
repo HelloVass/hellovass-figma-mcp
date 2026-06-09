@@ -29,21 +29,43 @@ https://www.figma.com/settings
 
 ## 使用 JBang 安装 / Install With JBang
 
-推荐先在终端手动 trust release URL。MCP stdio 不能处理 JBang 第一次启动时的 trust 弹窗，所以不要让 MCP 客户端直接触发第一次 trust。
+推荐先在终端手动 trust 公开仓库和 release URL。MCP stdio 不能处理 JBang 第一次启动时的 trust 弹窗，所以不要让 MCP 客户端直接触发第一次 trust。
 
-Trust this release URL manually before adding the server to your MCP client. MCP stdio cannot handle JBang's first-run trust prompt.
+Trust the public repository and release URL manually before adding the server to your MCP client. MCP stdio cannot handle JBang's first-run trust prompt.
 
 ```bash
+jbang trust add https://github.com/HelloVass/hellovass-figma-mcp
 jbang trust add https://github.com/HelloVass/hellovass-figma-mcp/releases/download/
 ```
 
-安装为本地命令:
+推荐通过 JBang catalog alias 配置 MCP 客户端:
 
-Install it as a local command:
+The recommended MCP client configuration uses the JBang catalog alias:
+
+```json
+{
+  "mcpServers": {
+    "hellovass-figma": {
+      "command": "jbang",
+      "args": [
+        "run",
+        "--quiet",
+        "hellovass-figma@HelloVass/hellovass-figma-mcp"
+      ],
+      "env": {
+        "FIGMA_TOKEN": "figd_xxx"
+      }
+    }
+  }
+}
+```
+
+如果希望安装为本地命令:
+
+If you prefer installing it as a local command:
 
 ```bash
-jbang app install --name hellovass-figma-mcp \
-  https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.0/hellovass-figma-mcp-0.1.0-all.jar
+jbang app install --name hellovass-figma-mcp hellovass-figma@HelloVass/hellovass-figma-mcp
 ```
 
 如果当前 shell 安装后还找不到 `hellovass-figma-mcp`，重启 shell，或者使用完整路径 `~/.jbang/bin/hellovass-figma-mcp`。
