@@ -1,120 +1,25 @@
 # hellovass-figma-mcp
 
-`hellovass-figma-mcp` 是一个自托管 Figma MCP Server，用于把 Figma 节点转换成 framework-agnostic ViewTree IR，供 AI agent 生成 Android / iOS / React Native / Flutter UI 代码。
+[中文](README.md) | [English](README.en.md)
 
-`hellovass-figma-mcp` is a self-hosted Figma MCP server that turns Figma nodes into framework-agnostic ViewTree IR for Android / iOS / React Native / Flutter UI code generation.
+这是 HelloVass Figma MCP Server 的公开分发仓。
 
-本仓库是公开分发仓库，只包含使用文档和 release 产物。核心实现源码维护在私有仓库中。
+源码、测试工程、Figma 验收用例、内部导出脚本都保留在 private 仓。这里仅发布经过 R8 classfile 混淆的可运行 jar、checksum 和 MCP 使用说明。
 
-This is the public distribution repository. It contains usage documentation and release artifacts only. The implementation source is maintained separately.
+## 当前版本
 
-## 环境要求 / Requirements
+- Version: `0.1.3`
+- Jar: [`hellovass-figma-mcp-0.1.3-all-r8.jar`](hellovass-figma-mcp-0.1.3-all-r8.jar)
+- SHA-256: `9b079b30632630cb282d3c0ba39e79251ad7b7bacd68f313496731b2b739011b`
 
-- Java 17+
-- Figma personal access token
-- 可选 / Optional: [JBang](https://www.jbang.dev/)，用于更自然地配置 MCP 客户端
+## 前置条件
 
-在 Figma 设置页创建 token:
+- Java 17 或更高版本。
+- Figma Personal Access Token，并授予 `File content read`、`File images read` 权限。
 
-Create a Figma token from:
+## MCP 客户端配置
 
-```text
-https://www.figma.com/settings
-```
-
-需要的权限 / Required scopes:
-
-- `File content (read)`
-- `File images (read)`
-
-## 使用 JBang 安装 / Install With JBang
-
-推荐先在终端手动 trust 公开仓库和 release URL。MCP stdio 不能处理 JBang 第一次启动时的 trust 弹窗，所以不要让 MCP 客户端直接触发第一次 trust。
-
-Trust the public repository and release URL manually before adding the server to your MCP client. MCP stdio cannot handle JBang's first-run trust prompt.
-
-```bash
-jbang trust add https://github.com/HelloVass/hellovass-figma-mcp
-jbang trust add https://github.com/HelloVass/hellovass-figma-mcp/releases/download/
-```
-
-推荐通过 JBang catalog alias 配置 MCP 客户端:
-
-The recommended MCP client configuration uses the JBang catalog alias:
-
-```json
-{
-  "mcpServers": {
-    "hellovass-figma": {
-      "command": "jbang",
-      "args": [
-        "run",
-        "--quiet",
-        "hellovass-figma@HelloVass/hellovass-figma-mcp"
-      ],
-      "env": {
-        "FIGMA_TOKEN": "figd_xxx"
-      }
-    }
-  }
-}
-```
-
-如果希望安装为本地命令:
-
-If you prefer installing it as a local command:
-
-```bash
-jbang app install --name hellovass-figma-mcp hellovass-figma@HelloVass/hellovass-figma-mcp
-```
-
-如果当前 shell 安装后还找不到 `hellovass-figma-mcp`，重启 shell，或者使用完整路径 `~/.jbang/bin/hellovass-figma-mcp`。
-
-If your current shell cannot find `hellovass-figma-mcp` immediately after installation, restart the shell or use the full path `~/.jbang/bin/hellovass-figma-mcp`.
-
-然后配置 MCP 客户端:
-
-Then configure your MCP client:
-
-```json
-{
-  "mcpServers": {
-    "hellovass-figma": {
-      "command": "hellovass-figma-mcp",
-      "args": [],
-      "env": {
-        "FIGMA_TOKEN": "figd_xxx"
-      }
-    }
-  }
-}
-```
-
-已 trust URL 后，也可以让 MCP 客户端直接通过 JBang 运行 release jar:
-
-After the URL is trusted, you can also run the release jar directly through JBang:
-
-```json
-{
-  "mcpServers": {
-    "hellovass-figma": {
-      "command": "jbang",
-      "args": [
-        "https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.3/hellovass-figma-mcp-0.1.3-all.jar"
-      ],
-      "env": {
-        "FIGMA_TOKEN": "figd_xxx"
-      }
-    }
-  }
-}
-```
-
-## 使用 Java 安装 / Install With Java
-
-从 GitHub Release 下载 jar 后配置 MCP 客户端:
-
-Download the jar from GitHub Releases, then configure your MCP client:
+下载 jar 后，在 Codex / Claude Code / Claude Desktop 的 MCP 配置中使用本地 jar 启动：
 
 ```json
 {
@@ -123,7 +28,7 @@ Download the jar from GitHub Releases, then configure your MCP client:
       "command": "java",
       "args": [
         "-jar",
-        "/absolute/path/to/hellovass-figma-mcp-0.1.3-all.jar"
+        "/absolute/path/to/hellovass-figma-mcp-0.1.3-all-r8.jar"
       ],
       "env": {
         "FIGMA_TOKEN": "figd_xxx"
@@ -133,48 +38,29 @@ Download the jar from GitHub Releases, then configure your MCP client:
 }
 ```
 
-## 工具 / Tools
+`FIGMA_TOKEN` 也可以由 MCP client 的环境变量管理；不要把真实 token 提交到仓库。
 
-| Tool | 中文说明 | English Description |
-|------|----------|---------------------|
-| `figma_get_view_tree(figmaUrl)` | 返回指定 Figma 节点的 ViewTree IR JSON | Return ViewTree IR JSON for a Figma node |
-| `figma_get_screenshot(figmaUrl, scale?)` | 返回节点 PNG 预览图 | Return a PNG preview as MCP image content |
-| `figma_download_assets(fileUrl, assets[], outputDir)` | 下载图片或矢量资源到本地目录 | Download image/vector assets to a local directory |
-| `figma_list_frames(fileUrl)` | 列出页面和顶层 frame/component | List pages and top-level frames/components |
-| `figma_get_node_raw(figmaUrl)` | 返回原始 Figma REST node JSON，用于调试 | Return raw Figma REST node JSON for debugging |
+## Tools
 
-## Smoke Test
+| Tool | 参数 | 说明 |
+|------|------|------|
+| `figma_get_view_tree` | `figmaUrl` | 主工具。把 Figma 节点转换为平台无关的 ViewTree IR JSON。 |
+| `figma_get_screenshot` | `figmaUrl`, `scale?` | 获取目标节点截图和截图元数据。 |
+| `figma_download_assets` | `fileUrl`, `assets`, `outputDir` | 下载 IR 中声明的图片、SVG、Android Vector、PDF 等资源。 |
+| `figma_list_frames` | `fileUrl` | 列出 Figma 文件里的 page 和顶层 frame/component。 |
+| `figma_get_node_raw` | `figmaUrl` | 返回 Figma REST nodes endpoint 原始 JSON，用于定位 IR 转换问题。 |
+
+## 使用方式
+
+通常只需要把一个 Figma URL 交给支持 MCP 的 agent，让它调用 `figma_get_view_tree` 获取 IR，再按目标平台生成代码。
+
+外部使用者不需要运行 private 仓中的 `export-figma-node.mjs`，也不需要准备 Android demo 工程。那些是核心仓内部用于回归验收的工具。
+
+## 产物校验
 
 ```bash
-{ printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"smoke","version":"0.0"}}}'; sleep 2; } \
-  | FIGMA_TOKEN=dummy java -jar hellovass-figma-mcp-0.1.3-all.jar
+shasum -a 256 hellovass-figma-mcp-0.1.3-all-r8.jar
+cat hellovass-figma-mcp-0.1.3-all-r8.jar.sha256
 ```
 
-预期返回 JSON-RPC initialize response，包含:
-
-Expected: a JSON-RPC initialize response containing:
-
-```json
-{
-  "serverInfo": {
-    "name": "hellovass-figma-mcp",
-    "version": "0.1.3"
-  }
-}
-```
-
-## 产物 / Artifact
-
-Release: `v0.1.3`
-
-Jar:
-
-```text
-hellovass-figma-mcp-0.1.3-all.jar
-```
-
-SHA-256:
-
-```text
-323edcb3b479b2b12b351b4ba284cce5e31c00792d416f93ddecac1f704074c6
-```
+两个 SHA-256 值一致时，说明 jar 没有被篡改或损坏。
