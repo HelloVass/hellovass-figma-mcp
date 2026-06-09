@@ -11,7 +11,7 @@
 - Version: `0.1.3`
 - Jar: [`hellovass-figma-mcp-0.1.3-all-r8.jar`](https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.3/hellovass-figma-mcp-0.1.3-all-r8.jar)
 - Checksum: [`hellovass-figma-mcp-0.1.3-all-r8.jar.sha256`](https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.3/hellovass-figma-mcp-0.1.3-all-r8.jar.sha256)
-- SHA-256: `9b079b30632630cb282d3c0ba39e79251ad7b7bacd68f313496731b2b739011b`
+- SHA-256: `1d68d4e13d162e4d7a0b6ed67c6afa7a7243c3715d5e5a51654dd4c7333ac5c1`
 
 ## 前置条件
 
@@ -74,6 +74,14 @@
 配置 MCP 后，把 Figma URL 交给支持 MCP 的 agent，让它调用 `figma_get_view_tree` 获取 IR，再按目标平台生成代码。
 
 如果需要排查还原问题，可以让 agent 继续调用 `figma_get_node_raw`、`figma_get_screenshot` 和 `figma_download_assets`，对比原始节点、IR、截图和导出的资源。
+
+## Android 推荐搭配
+
+如果目标是 Android Compose，推荐同时安装 [`HelloVass/svg2vector-skills`](https://github.com/HelloVass/svg2vector-skills)。
+
+这个 skill 提供 `svg2vector` CLI，封装 Android Studio Vector Asset Studio 内部使用的 `Svg2Vector` 算法，可以把 MCP 下载到本地的 SVG 资产转换成 Android `VectorDrawable` XML。
+
+它不是 MCP server 的运行前置条件；但在 Android 还原链路里，它可以让 agent 优先把图标和可矢量化资源落成 `res/drawable/*.xml`，减少不必要的 PNG fallback，整体还原和工程落地会更稳定。
 
 ## 产物校验
 

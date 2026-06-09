@@ -11,7 +11,7 @@ This repository publishes the R8 classfile-obfuscated runnable jar, checksum, JB
 - Version: `0.1.3`
 - Jar: [`hellovass-figma-mcp-0.1.3-all-r8.jar`](https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.3/hellovass-figma-mcp-0.1.3-all-r8.jar)
 - Checksum: [`hellovass-figma-mcp-0.1.3-all-r8.jar.sha256`](https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.3/hellovass-figma-mcp-0.1.3-all-r8.jar.sha256)
-- SHA-256: `9b079b30632630cb282d3c0ba39e79251ad7b7bacd68f313496731b2b739011b`
+- SHA-256: `1d68d4e13d162e4d7a0b6ed67c6afa7a7243c3715d5e5a51654dd4c7333ac5c1`
 
 ## Requirements
 
@@ -74,6 +74,14 @@ You can also download the jar and start the MCP server from the local jar:
 After configuring the MCP server, pass a Figma URL to an MCP-enabled agent. The agent calls `figma_get_view_tree` to get the IR, then generates code for the target platform.
 
 For restoration debugging, the agent can also call `figma_get_node_raw`, `figma_get_screenshot`, and `figma_download_assets` to compare the raw node, IR, screenshot, and exported assets.
+
+## Recommended For Android
+
+For Android Compose generation, install [`HelloVass/svg2vector-skills`](https://github.com/HelloVass/svg2vector-skills) alongside this MCP server.
+
+That skill provides the `svg2vector` CLI, which wraps the same `Svg2Vector` algorithm used internally by Android Studio Vector Asset Studio. It converts SVG assets downloaded by the MCP server into Android `VectorDrawable` XML.
+
+It is not required to run the MCP server. It is a recommended companion for Android restoration because it lets the agent prefer `res/drawable/*.xml` for icons and vector-friendly assets, reducing unnecessary PNG fallback and producing a more stable Android implementation.
 
 ## Artifact Verification
 
