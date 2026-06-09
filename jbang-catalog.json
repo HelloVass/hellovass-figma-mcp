@@ -1,7 +1,7 @@
 {
   "aliases": {
     "hellovass-figma": {
-      "script-ref": "https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.1/hellovass-figma-mcp-0.1.1-all.jar",
+      "script-ref": "https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.2/hellovass-figma-mcp-0.1.2-all.jar",
       "description": "HelloVass Figma MCP server",
       "java": "17",
       "main": "com.hellovass.figma.mcp.MainKt"
