@@ -100,7 +100,7 @@ After the URL is trusted, you can also run the release jar directly through JBan
     "hellovass-figma": {
       "command": "jbang",
       "args": [
-        "https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.0/hellovass-figma-mcp-0.1.0-all.jar"
+        "https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.1/hellovass-figma-mcp-0.1.1-all.jar"
       ],
       "env": {
         "FIGMA_TOKEN": "figd_xxx"
@@ -123,7 +123,7 @@ Download the jar from GitHub Releases, then configure your MCP client:
       "command": "java",
       "args": [
         "-jar",
-        "/absolute/path/to/hellovass-figma-mcp-0.1.0-all.jar"
+        "/absolute/path/to/hellovass-figma-mcp-0.1.1-all.jar"
       ],
       "env": {
         "FIGMA_TOKEN": "figd_xxx"
@@ -147,7 +147,7 @@ Download the jar from GitHub Releases, then configure your MCP client:
 
 ```bash
 { printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"smoke","version":"0.0"}}}'; sleep 2; } \
-  | FIGMA_TOKEN=dummy java -jar hellovass-figma-mcp-0.1.0-all.jar
+  | FIGMA_TOKEN=dummy java -jar hellovass-figma-mcp-0.1.1-all.jar
 ```
 
 预期返回 JSON-RPC initialize response，包含:
@@ -158,23 +158,23 @@ Expected: a JSON-RPC initialize response containing:
 {
   "serverInfo": {
     "name": "hellovass-figma-mcp",
-    "version": "0.1.0"
+    "version": "0.1.1"
   }
 }
 ```
 
 ## 产物 / Artifact
 
-Release: `v0.1.0`
+Release: `v0.1.1`
 
 Jar:
 
 ```text
-hellovass-figma-mcp-0.1.0-all.jar
+hellovass-figma-mcp-0.1.1-all.jar
 ```
 
 SHA-256:
 
 ```text
-80ab66397ed01eb8492ebb1616487eb4911c3f42a1c084c26a26950928a18dcb
+4164d595b19d5127fcee5656aece40a527355e130e3c6c3b457199cdef57181e
 ```
