@@ -4,7 +4,7 @@
 
 这是 HelloVass Figma MCP Server 的公开分发仓。
 
-源码、测试工程、Figma 验收用例、内部导出脚本都保留在 private 仓。这里仅发布经过 R8 classfile 混淆的可运行 jar、checksum 和 MCP 使用说明。
+这里发布经过 R8 classfile 混淆的可运行 jar、checksum、JBang catalog 和 MCP 使用说明。
 
 ## 当前版本
 
@@ -71,9 +71,9 @@
 
 ## 使用方式
 
-通常只需要把一个 Figma URL 交给支持 MCP 的 agent，让它调用 `figma_get_view_tree` 获取 IR，再按目标平台生成代码。
+配置 MCP 后，把 Figma URL 交给支持 MCP 的 agent，让它调用 `figma_get_view_tree` 获取 IR，再按目标平台生成代码。
 
-外部使用者不需要运行 private 仓中的 `export-figma-node.mjs`，也不需要准备 Android demo 工程。那些是核心仓内部用于回归验收的工具。
+如果需要排查还原问题，可以让 agent 继续调用 `figma_get_node_raw`、`figma_get_screenshot` 和 `figma_download_assets`，对比原始节点、IR、截图和导出的资源。
 
 ## 产物校验
 

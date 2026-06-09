@@ -4,7 +4,7 @@
 
 This is the public distribution repository for HelloVass Figma MCP Server.
 
-Source code, tests, Figma validation cases, and internal export scripts stay in the private repository. This repository only publishes the R8 classfile-obfuscated runnable jar, checksum, and MCP usage guide.
+This repository publishes the R8 classfile-obfuscated runnable jar, checksum, JBang catalog, and MCP usage guide.
 
 ## Current Version
 
@@ -71,9 +71,9 @@ You can also download the jar and start the MCP server from the local jar:
 
 ## Usage
 
-In normal use, pass a Figma URL to an MCP-enabled agent. The agent calls `figma_get_view_tree` to get the IR, then generates code for the target platform.
+After configuring the MCP server, pass a Figma URL to an MCP-enabled agent. The agent calls `figma_get_view_tree` to get the IR, then generates code for the target platform.
 
-External users do not need the private repository's `export-figma-node.mjs` script or the Android demo project. Those are internal regression validation tools for the core repository.
+For restoration debugging, the agent can also call `figma_get_node_raw`, `figma_get_screenshot`, and `figma_download_assets` to compare the raw node, IR, screenshot, and exported assets.
 
 ## Artifact Verification
 
