@@ -9,7 +9,8 @@ Source code, tests, Figma validation cases, and internal export scripts stay in 
 ## Current Version
 
 - Version: `0.1.3`
-- Jar: [`hellovass-figma-mcp-0.1.3-all-r8.jar`](hellovass-figma-mcp-0.1.3-all-r8.jar)
+- Jar: [`hellovass-figma-mcp-0.1.3-all-r8.jar`](https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.3/hellovass-figma-mcp-0.1.3-all-r8.jar)
+- Checksum: [`hellovass-figma-mcp-0.1.3-all-r8.jar.sha256`](https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.3/hellovass-figma-mcp-0.1.3-all-r8.jar.sha256)
 - SHA-256: `9b079b30632630cb282d3c0ba39e79251ad7b7bacd68f313496731b2b739011b`
 
 ## Requirements
@@ -19,7 +20,25 @@ Source code, tests, Figma validation cases, and internal export scripts stay in 
 
 ## MCP Client Configuration
 
-After downloading the jar, configure Codex / Claude Code / Claude Desktop to start the MCP server from the local jar:
+The recommended setup is to start the server through the JBang alias. Codex / Claude Code / Claude Desktop can use:
+
+```json
+{
+  "mcpServers": {
+    "hellovass-figma": {
+      "command": "jbang",
+      "args": [
+        "hellovass-figma@HelloVass/hellovass-figma-mcp"
+      ],
+      "env": {
+        "FIGMA_TOKEN": "figd_xxx"
+      }
+    }
+  }
+}
+```
+
+You can also download the jar and start the MCP server from the local jar:
 
 ```json
 {
@@ -38,7 +57,7 @@ After downloading the jar, configure Codex / Claude Code / Claude Desktop to sta
 }
 ```
 
-`FIGMA_TOKEN` may also be managed by the MCP client environment. Do not commit real tokens to the repository.
+`FIGMA_TOKEN` may also be managed by the MCP client environment. Do not commit real tokens to the repository. JBang uses this repository's `jbang-catalog.json`, which points to the current public R8 jar.
 
 ## Tools
 

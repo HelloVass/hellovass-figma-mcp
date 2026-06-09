@@ -9,7 +9,8 @@
 ## 当前版本
 
 - Version: `0.1.3`
-- Jar: [`hellovass-figma-mcp-0.1.3-all-r8.jar`](hellovass-figma-mcp-0.1.3-all-r8.jar)
+- Jar: [`hellovass-figma-mcp-0.1.3-all-r8.jar`](https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.3/hellovass-figma-mcp-0.1.3-all-r8.jar)
+- Checksum: [`hellovass-figma-mcp-0.1.3-all-r8.jar.sha256`](https://github.com/HelloVass/hellovass-figma-mcp/releases/download/v0.1.3/hellovass-figma-mcp-0.1.3-all-r8.jar.sha256)
 - SHA-256: `9b079b30632630cb282d3c0ba39e79251ad7b7bacd68f313496731b2b739011b`
 
 ## 前置条件
@@ -19,7 +20,25 @@
 
 ## MCP 客户端配置
 
-下载 jar 后，在 Codex / Claude Code / Claude Desktop 的 MCP 配置中使用本地 jar 启动：
+推荐通过 JBang alias 启动。Codex / Claude Code / Claude Desktop 的 MCP 配置可以写成：
+
+```json
+{
+  "mcpServers": {
+    "hellovass-figma": {
+      "command": "jbang",
+      "args": [
+        "hellovass-figma@HelloVass/hellovass-figma-mcp"
+      ],
+      "env": {
+        "FIGMA_TOKEN": "figd_xxx"
+      }
+    }
+  }
+}
+```
+
+也可以下载 jar 后使用本地 jar 启动：
 
 ```json
 {
@@ -38,7 +57,7 @@
 }
 ```
 
-`FIGMA_TOKEN` 也可以由 MCP client 的环境变量管理；不要把真实 token 提交到仓库。
+`FIGMA_TOKEN` 也可以由 MCP client 的环境变量管理；不要把真实 token 提交到仓库。JBang 启动会读取本仓的 `jbang-catalog.json`，catalog 指向当前 public R8 jar。
 
 ## Tools
 
